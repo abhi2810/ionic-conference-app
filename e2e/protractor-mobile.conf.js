@@ -37,6 +37,14 @@ exports.config = {
         defaultTimeoutInterval: 60000,
         print: function () { }
     },
+    onComplete: function (passed) {
+        if (!passed) {
+            browser.executeScript('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "At least 1 assertion has failed"}}');
+        }
+        if (passed) {
+            browser.executeScript('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "All assertions passed"}}');
+        }
+    },
     onPrepare() {
         require('ts-node').register({
             project: require('path').join(__dirname, './tsconfig.json')
