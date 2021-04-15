@@ -1,8 +1,7 @@
 const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
-    browserstackUser: process.env.BROWSERSTACK_USERNAME || 'abhisingh5',
-    browserstackKey: process.env.BROWSERSTACK_ACCESS_KEY || 'mJjAQUZRjDyqhxMxQxjq',
+    seleniumAddress: 'https://<BROWSERSTACK_USERNAME>:<BROWSERSTACK_ACCESS_KEY>@hub-cloud.browserstack.com/wd/hub',
     specs: [
         './src/**/*.mobile-e2e-spec.ts'
     ],
@@ -12,7 +11,7 @@ exports.config = {
             'build': 'Protractor Test',
             'device': 'Google Pixel 3',
             'os_version': '10.0',
-            'app': 'bs://88e05c29eee6ec245c5aae039ee764b0a128c22a',
+            'app': 'bs://<APP_ID>',
             'browserstack.debug': true,
             'browserstack.networkLogs': true,
             autoWebview: true,
@@ -23,7 +22,7 @@ exports.config = {
             'build': 'Protractor Test',
             'device': 'Samsung Galaxy S20',
             'os_version': '10.0',
-            'app': 'bs://88e05c29eee6ec245c5aae039ee764b0a128c22a',
+            'app': 'bs://<APP_ID>',
             'browserstack.debug': true,
             'browserstack.networkLogs': true,
             autoWebview: true,
@@ -36,14 +35,6 @@ exports.config = {
         showColors: true,
         defaultTimeoutInterval: 60000,
         print: function () { }
-    },
-    onComplete: function (passed) {
-        if (!passed) {
-            browser.executeScript('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "At least 1 assertion has failed"}}');
-        }
-        if (passed) {
-            browser.executeScript('browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "All assertions passed"}}');
-        }
     },
     onPrepare() {
         require('ts-node').register({
